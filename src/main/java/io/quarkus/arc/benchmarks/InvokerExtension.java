@@ -12,6 +12,7 @@ import jakarta.inject.Singleton;
 public class InvokerExtension implements BuildCompatibleExtension {
     private InvokerInfo directInvoker;
     private InvokerInfo transformingInvoker;
+    private InvokerInfo transforming2Invoker;
 
     @Registration(types = InvokableBean.class)
     public void register(BeanInfo bean) {
@@ -19,6 +20,7 @@ public class InvokerExtension implements BuildCompatibleExtension {
             if ("ping".equals(m.name())) {
                 directInvoker = bean.createInvoker(m).build();
                 transformingInvoker = bean.createInvoker(m).setReturnValueTransformer(InvokableBean.class, "transform").build();
+                transforming2Invoker = bean.createInvoker(m).setReturnValueTransformer(InvokableBean.Transform.class).build();
             }
         }
     }
@@ -30,6 +32,7 @@ public class InvokerExtension implements BuildCompatibleExtension {
                 .type(InvokerHolder.class)
                 .withParam("directInvoker", directInvoker)
                 .withParam("transformingInvoker", transformingInvoker)
+                .withParam("transforming2Invoker", transforming2Invoker)
                 .createWith(InvokerHolder.Creator.class);
     }
 }

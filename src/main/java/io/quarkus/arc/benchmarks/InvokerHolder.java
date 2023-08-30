@@ -11,10 +11,12 @@ import jakarta.inject.Singleton;
 public class InvokerHolder {
     final Invoker<InvokableBean, String> direct;
     final Invoker<InvokableBean, String> transforming;
+    final Invoker<InvokableBean, String> transforming2;
 
-    public InvokerHolder(Invoker<InvokableBean, String> direct, Invoker<InvokableBean, String> transforming) {
+    public InvokerHolder(Invoker<InvokableBean, String> direct, Invoker<InvokableBean, String> transforming, Invoker<InvokableBean, String> transforming2) {
         this.direct = direct;
         this.transforming = transforming;
+        this.transforming2 = transforming2;
     }
 
     public static class Creator implements SyntheticBeanCreator<InvokerHolder> {
@@ -22,7 +24,8 @@ public class InvokerHolder {
         public InvokerHolder create(Instance<Object> lookup, Parameters parameters) {
             return new InvokerHolder(
                     parameters.get("directInvoker", Invoker.class),
-                    parameters.get("transformingInvoker", Invoker.class)
+                    parameters.get("transformingInvoker", Invoker.class),
+                    parameters.get("transforming2Invoker", Invoker.class)
             );
         }
     }

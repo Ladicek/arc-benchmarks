@@ -24,6 +24,7 @@ public class InvokerBenchmark {
 
     private Invoker<InvokableBean, String> directInvoker;
     private Invoker<InvokableBean, String> transformingInvoker;
+    private Invoker<InvokableBean, String> transforming2Invoker;
 
     @Setup
     public void setup() {
@@ -38,6 +39,7 @@ public class InvokerBenchmark {
         }
         directInvoker = invokers.direct;
         transformingInvoker = invokers.transforming;
+        transforming2Invoker = invokers.transforming2;
     }
 
     @TearDown
@@ -58,5 +60,10 @@ public class InvokerBenchmark {
     @Benchmark
     public String transformingInvoker() {
         return transformingInvoker.invoke(bean, new Object[] {42});
+    }
+
+    @Benchmark
+    public String transforming2Invoker() {
+        return transforming2Invoker.invoke(bean, new Object[] {42});
     }
 }
